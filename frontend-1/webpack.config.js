@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 module.exports = (env, argv) => {
 
@@ -31,6 +31,13 @@ module.exports = (env, argv) => {
             extensions: ["*", ".js", ".jsx"],
         },
         plugins: [
+            new ModuleFederationPlugin({
+                name: 'fe_app_1',
+                filename: 'remoteEntry.js',
+                exposes: {
+                    './FeApp1': './src/FeApp1.jsx',
+                },
+            }),
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, "public", "index.html"),
             }),
